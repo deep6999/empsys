@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { AuthContext } from "../../context/AuthProvider";
 
 const AllTask = () => {
-  const authData = useContext(AuthContext);
+  const { userData } = useContext(AuthContext);
 
   return (
     <div className="bg-[#1c1c1c] mt-5 rounded px-5 py-4">
@@ -24,7 +24,7 @@ const AllTask = () => {
         </h2>
       </div>
       <div>
-        {authData.userData.map(function(elem){ return (
+        {userData.map(function(elem){ return (
           <div
             key={elem.id}
             className="flex justify-between items-center bg-gray-800 mb-2 py-2 px-4 rounded"

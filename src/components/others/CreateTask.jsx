@@ -1,20 +1,46 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../../context/AuthProvider.jsx";
 
 const CreateTask = () => {
+
+  const { userData, adminData, setUserData } = useContext(AuthContext);
+
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDate, setTaskDate] = useState("");
   const [assignTo, setAssignTo] = useState("");
   const [category, setCategory] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
-
   const submitHandler = (e) => {
     e.preventDefault();
+
+    const taskObj = {
+      taskTitle,
+      taskDate,
+      category,
+      taskDescription,
+      active: false,
+      newTask: true,
+      completed: false,
+      failed: false,
+    };
+
+    const data = userData;
+    data.forEach((elem) => {
+      if (elem.firstName === assignTo) {
+        elem.tasks.push(taskObj);
+        elem.taskCounts.newTask = elem.taskCounts.newTask + 1
+        
+      }
+    });
     
-    setTaskTitle('')
-    setTaskDate('')
-    setAssignTo('')
-    setCategory('')
-    setTaskDescription('')
+    setUserData(data);
+    console.log(data);
+
+    setTaskTitle("");
+    setTaskDate("");
+    setAssignTo("");
+    setCategory("");
+    setTaskDescription("");
   };
   return (
     <div className="bg-[#1c1c1c] w-full h-auto p-10 rounded-md mt-10">
@@ -34,9 +60,9 @@ const CreateTask = () => {
             </label>
             <input
               value={taskTitle}
-              onChange={(e)=>{
-                setTaskTitle(e.target.value)
-              }}  
+              onChange={(e) => {
+                setTaskTitle(e.target.value);
+              }}
               className="py-1 px-2 w-full rounded-md text-lg border-2 border-gray-400 focus:outline-none focus:border-emerald-500"
               type="text"
               id="taskName"
@@ -50,9 +76,9 @@ const CreateTask = () => {
             </label>
             <input
               value={taskDate}
-              onChange={(e)=>{
-                setTaskDate(e.target.value)
-              }}  
+              onChange={(e) => {
+                setTaskDate(e.target.value);
+              }}
               className="py-1 px-2 w-full rounded-md text-lg border-2 border-gray-400 focus:outline-none focus:border-emerald-500"
               type="date"
               id="date"
@@ -68,9 +94,9 @@ const CreateTask = () => {
             </label>
             <input
               value={assignTo}
-              onChange={(e)=>{
-                setAssignTo(e.target.value)
-              }}  
+              onChange={(e) => {
+                setAssignTo(e.target.value);
+              }}
               className="py-1 px-2 w-full rounded-md text-lg border-2 border-gray-400 focus:outline-none focus:border-emerald-500"
               type="text"
               id="assignee"
@@ -87,9 +113,9 @@ const CreateTask = () => {
             </label>
             <input
               value={category}
-              onChange={(e)=>{
-                setCategory(e.target.value)
-              }}  
+              onChange={(e) => {
+                setCategory(e.target.value);
+              }}
               className="py-1 px-2 w-full rounded-md text-lg border-2 border-gray-400 focus:outline-none focus:border-emerald-500"
               type="text"
               id="category"
@@ -108,9 +134,9 @@ const CreateTask = () => {
             </label>
             <textarea
               value={taskDescription}
-              onChange={(e)=>{
-                setTaskDescription(e.target.value)
-              }}  
+              onChange={(e) => {
+                setTaskDescription(e.target.value);
+              }}
               className="py-1 px-2 w-full h-75 rounded-md text-lg border-2 border-gray-400 focus:outline-none focus:border-emerald-500"
               id="description"
               name="description"
